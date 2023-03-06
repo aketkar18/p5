@@ -1,8 +1,9 @@
 let loadImg, homePageImg, menuImg, burritoImg, chickenImg, doubleChickenImg, finalOrderImg, paymentImg, slideImg, scanImg, currentPage;
 let touchStartY = 0;
 let touchEndY = 0;
-let burritoButton, chickenButton, doubleChickenButton, addToBagButton, continuePaymentButton;
+let xButton, burritoButton, chickenButton, doubleChickenButton, addToBagButton, continuePaymentButton;
 let chickenClicked = false; 
+let capture;
 
 function preload() {
   loadImg = loadImage('assets/loading.png');
@@ -34,6 +35,8 @@ function hideLoadingImage() {
   scanButton.size(200, 200);
   scanButton.style('opacity', 0);
   scanButton.mousePressed(loadScanPage);
+  capture.stop();
+  capture.hide();
 }
 
 function draw() {
@@ -147,7 +150,12 @@ function showPayment() {
 function loadScanPage() {
   currentPage = "scan";
   scanButton.hide();
-  let capture = createCapture(VIDEO);
+  capture = createCapture(VIDEO);
   capture.size(750, 750);
   capture.position(200, 600);
+  xButton = createButton('X');
+  xButton.position(800, 0);
+  xButton.size(350, 350);
+  xButton.style('opacity', 0);
+  xButton.mousePressed(hideLoadingImage);
 } 
