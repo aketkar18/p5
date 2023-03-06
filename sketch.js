@@ -1,4 +1,4 @@
-let loadImg, homePageImg, menuImg, burritoImg, chickenImg, scanImg, currentPage;
+let loadImg, homePageImg, menuImg, burritoImg, chickenImg, slideImg, scanImg, currentPage;
 let touchStartY = 0;
 let touchEndY = 0;
 let burritoButton, chickenButton;
@@ -9,7 +9,9 @@ function preload() {
   menuImg = loadImage('assets/menu.png');
   burritoImg = loadImage('assets/burrito.png');
   chickenImg = loadImage('assets/chicken.png');
+  slideImg = loadImage('assets/slidemenu.png');
   scanImg = loadImage('assets/scan.png');
+  
 }
 
 function setup() {
@@ -42,16 +44,23 @@ function draw() {
     image(burritoImg, 0, 0);
   } else if (currentPage === "chicken") {
     image(chickenImg, 0, 0);
+  } else if (currentPage === "slidemenu") {
+      image(slideImg, 0, 0);
+  } else if (currentPage === "scan") {
+    image(scanImg, 0, 0);
   }
 }
 
 function touchStarted() {
   touchStartY = mouseY;
   touchEndY = mouseY;
+  touchStartX = mouseX;
+  touchEndX = mouseX;
 }
 
 function touchMoved() {
   touchEndY = mouseY;
+  touchEndX = mouseX;
 }
 
 function touchEnded() {
@@ -85,6 +94,15 @@ function loadBurritoPage() {
 function chooseChickenOption() {
   currentPage = "chicken";
   image(chickenImg, 0, 0);
+
+  let swipeDistance = touchEndX - touchStartX;
+  if (swipeDistance > 100 && currentPage === "chicken") {
+    currentPage = "slidemenu";
+    image(slideImg, 0, 0);
+  } else if (swipeDistance < -100 && currentPage === "slidemenu") {
+    currentPage = "chicken";
+    image(chickenImg, 0, 0);
+  }
 }
 
 function loadScanPage() {
