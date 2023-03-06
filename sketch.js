@@ -1,7 +1,7 @@
-let loadImg, homePageImg, menuImg, burritoImg, chickenImg, doubleChickenImg, slideImg, scanImg, currentPage;
+let loadImg, homePageImg, menuImg, burritoImg, chickenImg, doubleChickenImg, finalOrderImg, paymentImg, slideImg, scanImg, currentPage;
 let touchStartY = 0;
 let touchEndY = 0;
-let burritoButton, chickenButton, doubleChickenButton;
+let burritoButton, chickenButton, doubleChickenButton, addToBagButton, continuePaymentButton;
 let chickenClicked = false; 
 
 function preload() {
@@ -12,7 +12,9 @@ function preload() {
   chickenImg = loadImage('assets/chicken.png');
   doubleChickenImg = loadImage('assets/doublechicken.png');
   slideImg = loadImage('assets/slidemenu.png');
+  finalOrderImg = loadImage('assets/noricenobeans.png');
   scanImg = loadImage('assets/scan.png');
+  paymentImg = loadImage('assets/visa.png');
   
 }
 
@@ -52,6 +54,10 @@ function draw() {
       image(slideImg, 0, 0);
   } else if (currentPage === "scan") {
     image(scanImg, 0, 0);
+  } else if (currentPage === "finalOrder") {
+    image(finalOrderImg, 0, 0);
+  } else if (currentPage === "payment") {
+    image(paymentImg, 0, 0);
   }
 }
 
@@ -113,6 +119,29 @@ function chooseChickenOption() {
 function chooseDoubleChickenOption() {
   currentPage = "doubleChicken";
   image(doubleChickenImg, 0, 0);
+
+  addToBagButton = createButton('add to bag button option');
+  addToBagButton.position(100, 2200);
+  addToBagButton.size(950, 250);
+  addToBagButton.style('opacity', 0);
+  addToBagButton.mousePressed(showFinalOrder);
+}
+
+function showFinalOrder() {
+  currentPage = "finalOrder";
+  image(finalOrderImg, 0, 0);
+
+  paymentButton = createButton('continue to payment option');
+  paymentButton.position(100, 2200);
+  paymentButton.size(950, 250);
+  paymentButton.style('opacity', 0);
+  paymentButton.mousePressed(showPayment);
+
+}
+
+function showPayment() {
+  currentPage = "payment";
+  image(paymentImg, 0, 0);
 }
 
 function loadScanPage() {
