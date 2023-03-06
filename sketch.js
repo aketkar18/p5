@@ -2,6 +2,7 @@ let loadImg, homePageImg, menuImg, burritoImg, chickenImg, doubleChickenImg, sli
 let touchStartY = 0;
 let touchEndY = 0;
 let burritoButton, chickenButton, doubleChickenButton;
+let chickenClicked = false; 
 
 function preload() {
   loadImg = loadImage('assets/loading.png');
@@ -68,6 +69,7 @@ function touchMoved() {
 
 function touchEnded() {
   let swipeDistance = touchEndY - touchStartY;
+  let swipeHorizontal = touchEndX - touchStartX;
   if (swipeDistance > 100 && currentPage === "menu") {
     currentPage = "home";
     image(homePageImg, 0, 0);
@@ -80,6 +82,14 @@ function touchEnded() {
     burritoButton.size(300, 100);
     burritoButton.style('opacity', 0);
     burritoButton.mousePressed(loadBurritoPage);
+  } else if( (chickenClicked && swipeHorizontal > 50 && currentPage == "chicken") ) {
+    currentPage = "slidemenu";
+    image(slideImg, 0, 0);
+    doubleChickenButton = createButton('choose double chicken option');
+    doubleChickenButton.position(515, 1400);
+    doubleChickenButton.size(350, 200);
+    doubleChickenButton.style('opacity', 0);
+    doubleChickenButton.mousePressed(chooseDoubleChickenOption);
   }
 }
 
@@ -97,17 +107,7 @@ function loadBurritoPage() {
 function chooseChickenOption() {
   currentPage = "chicken";
   image(chickenImg, 0, 0);
-
-  let swipeDistance = touchEndX - touchStartX;
-  if (swipeDistance > 100 && currentPage === "chicken") {
-    currentPage = "slidemenu";
-    image(slideImg, 0, 0);
-    doubleChickenButton = createButton('choose double chicken option');
-    doubleChickenButton.position(515, 1400);
-    doubleChickenButton.size(350, 200);
-    doubleChickenButton.style('opacity', 0);
-    doubleChickenButton.mousePressed(chooseDoubleChickenOption);
-  }
+  chickenClicked = true;
 }
 
 function chooseDoubleChickenOption() {
