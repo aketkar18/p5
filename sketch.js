@@ -1,9 +1,10 @@
 let loadImg, homePageImg, menuImg, burritoImg, chickenImg, doubleChickenImg, finalOrderImg, paymentImg, slideImg, scanImg, currentPage;
 let touchStartY = 0;
 let touchEndY = 0;
-let xButton, burritoButton, chickenButton, doubleChickenButton, addToBagButton, continuePaymentButton;
+let xButton, burritoButton, chickenButton, doubleChickenButton, addToBagButton, continuePaymentButton, payButton;
 let chickenClicked = false; 
 let capture;
+let y = 2532;
 
 function preload() {
   loadImg = loadImage('assets/loading.png');
@@ -61,6 +62,12 @@ function draw() {
     image(finalOrderImg, 0, 0);
   } else if (currentPage === "payment") {
     image(paymentImg, 0, 0);
+  } else if (currentPage == "hold to pay") {
+    image(paymentImg, 0, 0);
+    if (y > 0) {
+      rect(0, y, 1170, 100);
+      y -= 100;
+    }
   }
 }
 
@@ -107,8 +114,8 @@ function loadBurritoPage() {
   image(burritoImg, 0, 0);
   burritoButton.style('display', 'none');
   chickenButton = createButton('choose chicken option');
-  chickenButton.position(715, 1400);
-  chickenButton.size(350, 200);
+  chickenButton.position(515, 1400);
+  chickenButton.size(550, 200);
   chickenButton.style('opacity', 0);
   chickenButton.mousePressed(chooseChickenOption);
 }
@@ -134,17 +141,30 @@ function showFinalOrder() {
   currentPage = "finalOrder";
   image(finalOrderImg, 0, 0);
 
-  paymentButton = createButton('continue to payment option');
-  paymentButton.position(100, 2200);
-  paymentButton.size(950, 250);
-  paymentButton.style('opacity', 0);
-  paymentButton.mousePressed(showPayment);
+  continuePaymentButton = createButton('continue to payment option');
+  continuePaymentButton.position(100, 2200);
+  continuePaymentButton.size(950, 250);
+  continuePaymentButton.style('opacity', 0);
+  continuePaymentButton.mousePressed(showPayment);
 
 }
 
 function showPayment() {
   currentPage = "payment";
   image(paymentImg, 0, 0);
+
+  payButton = createButton('hold to pay');
+  payButton.position(100, 2100);
+  payButton.size(950, 250);
+  //payButton.style('opacity', 0);
+  payButton.mousePressed(fillFinalScreen);
+}
+
+function fillFinalScreen() {
+  y = 2532;
+  currentPage = "hold to pay";
+  fill(68, 21, 0);
+  noStroke();
 }
 
 function loadScanPage() {
