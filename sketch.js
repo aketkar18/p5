@@ -62,13 +62,7 @@ function draw() {
     image(finalOrderImg, 0, 0);
   } else if (currentPage === "payment") {
     image(paymentImg, 0, 0);
-  } else if (currentPage == "hold to pay") {
-    image(paymentImg, 0, 0);
-    if (y > 0) {
-      rect(0, y, 1170, 100);
-      y -= 100;
-    }
-  }
+  } 
 }
 
 function touchStarted() {
@@ -153,19 +147,39 @@ function showPayment() {
   currentPage = "payment";
   image(paymentImg, 0, 0);
 
-  payButton = createButton('hold to pay');
-  payButton.position(100, 2100);
-  payButton.size(950, 250);
-  //payButton.style('opacity', 0);
-  payButton.mousePressed(fillFinalScreen);
+  payButton = createButton('HOLD TO PAY');
+  payButton.position(360, 2030);
+  payButton.size(400, 400);
+  payButton.style('background-color', '#441500');
+  payButton.style('color', '#FFFFFF');
+  payButton.style('font-size', '48px');
+  payButton.style('border-radius', '50%');
+  payButton.style('font-family', 'Sans-Serif');
+
+  let paymentInProgress = false;
+  let paymentComplete = false;
+  let paymentTimer;
+
+  payButton.mousePressed(function() {
+    paymentInProgress = true;
+    payButton.html('PROCESSING PAYMENT...');
+    paymentTimer = setTimeout(function() {
+      paymentComplete = true;
+      payButton.html('PAYMENT COMPLETE');
+    }, 2000);
+  });
+
+  payButton.mouseReleased(function() {
+    if (paymentInProgress && !paymentComplete) {
+      clearTimeout(paymentTimer);
+      payButton.html('PAYMENT FAILED');
+    }
+    paymentInProgress = false;
+    paymentComplete = false;
+  });
 }
 
-function fillFinalScreen() {
-  y = 2532;
-  currentPage = "hold to pay";
-  fill(68, 21, 0);
-  noStroke();
-}
+
 
 function loadScanPage() {
   currentPage = "scan";
